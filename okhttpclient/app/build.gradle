@@ -1,0 +1,46 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Creates a variable called zerotierPropertiesFile, and initializes it to the
+// zerotier.properties file.
+def zerotierPropertiesFile = rootProject.file("zerotier.properties")
+
+// Initializes a new Properties() object called zerotierProperties.
+def zerotierProperties = new Properties()
+
+// Loads the zerotier.properties file into the zerotierProperties object.
+zerotierProperties.load(new FileInputStream(zerotierPropertiesFile))
+
+
+android {
+    namespace 'com.zerotier.sockets.okhttpclient'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.zerotier.sockets.okhttpclient"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation files(zerotierProperties['libzt.aar'])
+    implementation('com.squareup.okhttp3:okhttp:5.0.0-alpha.11')
+}
